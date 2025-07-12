@@ -135,6 +135,10 @@ response:
 	.ascii "<h1> Hello from GAS RISC-V! </h1>\n"
 response_len = . - response
 
+
+## ADD PORT WITH LSB 
+port:	.half 0x12f0 			# Little endian (LSB)
+port_len = . - port			# optional 
  
 .section .text
 .globl _start
@@ -156,8 +160,13 @@ _start:
 	write STDOUT, bind_trace_msg, bind_trace_msg_len
 	la 	t0, sockaddr_in.sin_family
 	addi	t1, x0, AF_INET					#sin_family
-	sh 	t1, 0(t0) 	
-	li 	t1, 0x391b 					# sin_port sin.6969 big-endian or MSB for network
+	sh 	t1, 0(t0)
+
+	
+	la 	a0, port 					# sin_port 6969 or MSB for network
+	jal	ra, lsb_to_msb
+	addi	t1, a0, 0
+	
 	sh 	t1, 2(t0) 	
 	addi	t1, x0, INADDR_ANY
 	sw 	t1, 4(t0)					# sin_addr
@@ -184,13 +193,31 @@ loop:
 	write STDOUT, ok_msg, ok_msg_len
 	close s0
 	ld s0, 0(sp) 						# load sockfd
-	jal loop
+	jal x0, loop
 	
 	close s0
 
 	addi sp, sp, 16						# dealocation 
 	exit 0
 
+lsb_to_msb:
+	addi 	sp, sp, -32
+	sd	ra, 24(sp)
+	sd	s0, 16(sp)
+	addi	s0, sp, 32			# s0 = Frame Pointer
+	lh	t1, 0(a0)			# pointer to port (LSB) 
+	sb	t1, -17(s0)			# store 0x39
+	srl	t1, t1, 8
+	sb	t1, -18(s0)
+	lh	a0, -18(s0)
+
+	ld	ra, 24(sp)
+	ld	s0, 16(sp)
+	addi	sp, sp, 32
+	jalr	x0, ra, 0
+	
+
+	
 error:
 	write STDERR, error_msg, error_msg_len 
 	close s0
