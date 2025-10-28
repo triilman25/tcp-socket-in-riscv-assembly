@@ -23,7 +23,7 @@ Learning resources:
 - [Global Pointer][3]
 - [RISC-V Assembler Reference][4]
 - [RISC-V Instruction Set Reverence][5]
-- [Corret way to add labels for RISC-V data section][6]
+- [Correct way to add labels for RISC-V data section][6]
 - [RISC-V Calling Convention][7]
 - [Linux kernel system calls for all architectures][8]
 - [RISC-V Assembly Language][9]
