@@ -27,6 +27,7 @@ Learning resources:
 - [RISC-V Calling Convention][7]
 - [Linux kernel system calls for all architectures][8]
 - [RISC-V Assembly Language][9]
+- [Easy RISC-V][10]
 
 OS & Toolchains (optional):
 - [Cross-compiler][t1]
@@ -41,6 +42,7 @@ OS & Toolchains (optional):
 [7]: https://riscv.org/wp-content/uploads/2024/12/riscv-calling.pdf
 [8]: https://gpages.juszkiewicz.com.pl/syscalls-table/syscalls.html
 [9]: https://shakti.org.in/docs/risc-v-asm-manual.pdf
+[10]: https://dramforever.github.io/easyriscv/
 
 [t1]: https://toolchains.bootlin.com/
 [t2]: https://github.com/starnight/build-image
